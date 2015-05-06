@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+  'grappelli.dashboard',
+  'grappelli',
   'django.contrib.admin',
   'django.contrib.auth',
   'django.contrib.contenttypes',
@@ -117,3 +119,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 AUTH_USER_MODEL = 'timezones.ToptalUser'
+
+
+# Grapelli Config
+
+GRAPPELLI_ADMIN_TITLE = 'Toptal Admin Panel'
+GRAPPELLI_SWITCH_USER = True
