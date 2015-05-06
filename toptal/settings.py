@@ -42,6 +42,7 @@ INSTALLED_APPS = (
   'timezones',
   'rest_framework',
   'rest_framework_swagger',
+  'rest_framework_docs',
 )
 
 MIDDLEWARE_CLASSES = (

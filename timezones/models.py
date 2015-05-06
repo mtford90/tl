@@ -6,6 +6,9 @@ from django.db.models import CharField
 
 
 class ToptalUser(AbstractUser):
+  """
+  A user
+  """
   class Meta:
     verbose_name_plural = 'Users'
     verbose_name = 'User'
