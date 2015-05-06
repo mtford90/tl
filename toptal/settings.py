@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '$3!l&=dn+xv^%gk8r_=2-1ujvg&*-c@=ms^us^qpf+wae0%q$+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -31,8 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-  'grappelli.dashboard',
   'grappelli',
+  'grappelli.dashboard',
   'django.contrib.admin',
   'django.contrib.auth',
   'django.contrib.contenttypes',
@@ -126,3 +126,5 @@ AUTH_USER_MODEL = 'timezones.ToptalUser'
 
 GRAPPELLI_ADMIN_TITLE = 'Toptal Admin Panel'
 GRAPPELLI_SWITCH_USER = True
+
+GRAPPELLI_INDEX_DASHBOARD = 'toptal.dashboard.CustomIndexDashboard'
