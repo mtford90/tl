@@ -41,8 +41,7 @@ INSTALLED_APPS = (
   'whitenoise',
   'timezones',
   'rest_framework',
-  'rest_framework_swagger',
-  'rest_framework_docs',
+  'rest_framework_swagger'
 )
 
 MIDDLEWARE_CLASSES = (
