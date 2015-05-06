@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '$3!l&=dn+xv^%gk8r_=2-1ujvg&*-c@=ms^us^qpf+wae0%q$+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -33,13 +33,13 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
   'grappelli.dashboard',
   'grappelli',
-  'whitenoise',
   'django.contrib.admin',
   'django.contrib.auth',
   'django.contrib.contenttypes',
   'django.contrib.sessions',
   'django.contrib.messages',
   'django.contrib.staticfiles',
+  'whitenoise',
   'timezones'
 )
 
@@ -109,11 +109,11 @@ USE_TZ = True
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-  os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#   os.path.join(BASE_DIR, 'static'),
+# )
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
   "django.core.context_processors.request"
