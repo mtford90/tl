@@ -1,7 +1,9 @@
 dj-database-url==0.3.0
 Django==1.8.1
 django-grappelli==2.6.4
+django-rest-swagger==0.2.9
 djangorestframework==3.1.1
 psycopg2==2.6
+PyYAML==3.11
 waitress==0.8.9
 whitenoise==1.0.6
