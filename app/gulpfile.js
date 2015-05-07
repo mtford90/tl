@@ -116,18 +116,21 @@ gulp.task('dist:css:app', function () {
 
 gulp.task('dist:css:vendor', function () {
   return gulp.src(config.vendor.css)
+    .pipe(plugins.replace('themes\/default\/assets\/', '..\/'))
     .pipe(plugins.concat('vendor.css'))
     .pipe(plugins.minifyCss())
     .pipe(gulp.dest(config.dist + '/css'));
 });
 
 gulp.task('dist:assets', function (done) {
+  var assets = config.assets;
   async.parallel(
-    Object.keys(config.assets).map(function (folder) {
+    Object.keys(assets).map(function (folder) {
       return function (done) {
         var glob = config.assets[folder];
+        var dest = config.dist + '/' + folder;
         return gulp.src(glob)
-          .pipe(gulp.dest(config.dist + '/' + folder))
+          .pipe(gulp.dest(dest))
           .on('end', done);
       }
     }),
@@ -137,14 +140,6 @@ gulp.task('dist:assets', function (done) {
 
 gulp.task('dist:css', ['dist:css:app', 'dist:css:vendor']);
 
-gulp.task('dist:html', function () {
-  return dot(config.path.dist.index, {
-    js: relativeTo(config.dist, [config.path.dist.vendorjs, config.path.dist.js]).map(function (x) {return 'static/timezones/' + x}),
-    css: relativeTo(config.dist, [config.path.dist.css]).map(function (x) {return 'static/timezones/' + x}),
-    vendorcss: relativeTo(config.dist, [config.path.dist.vendorcss]).map(function (x) {return 'static/timezones/' + x}),
-    test: false
-  });
-});
 
 gulp.task('dist:js', ['dist:js:app', 'dist:js:vendor']);
 
@@ -153,7 +148,6 @@ gulp.task('dist', ['build'], function (done) {
     'dist:js',
     'dist:assets',
     'dist:css',
-    'dist:html',
     done
   )
 });

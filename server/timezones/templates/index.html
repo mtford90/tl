@@ -1,1 +1,17 @@
-<!DOCTYPE html><html><head> <meta charset="utf-8"> <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, minimal-ui"> <meta name="apple-mobile-web-app-capable" content="yes"> <title></title>   <link href="static/timezones/css/vendor.css" rel="stylesheet">   <link href="static/timezones/css/main.css" rel="stylesheet">  </head><body><div id="app"></div><script src="static/timezones/js/vendor.js" type="text/javascript"></script><script src="static/timezones/js/bundle.js" type="text/javascript"></script></body></html>
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title></title>
+  <link href="{% static "timezones/css/vendor.css" %}" rel="stylesheet">
+  <link href="{% static "timezones/css/main.css" %}" rel="stylesheet">
+</head>
+<body>
+<div id="app"></div>
+<script src="{% static "timezones/js/vendor.js" %}" type="text/javascript"></script>
+<script src="{% static "timezones/js/bundle.js" %}" type="text/javascript"></script>
+</body>
+</html>

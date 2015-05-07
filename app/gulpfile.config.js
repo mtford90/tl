@@ -1,7 +1,7 @@
 module.exports = new (function () {
   this.src = './src';
   this.build = './build';
-  this.dist = '../server/staticfiles/timezones';
+  this.dist = '../server/timezones/static/timezones';
   this.templates = '../server/timezones/templates';
 
   var jsGlob = '/js/**/*.js';
@@ -87,7 +87,8 @@ module.exports = new (function () {
 
   this.assets = {
     fonts: [
-      BOWER + 'font-awesome/fonts/**'
+      BOWER + 'font-awesome/fonts/**',
+      BOWER + 'semantic-ui/dist/themes/default/assets/fonts/**'
     ]
   };
 
