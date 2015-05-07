@@ -40,8 +40,7 @@ INSTALLED_APPS = (
   'django.contrib.staticfiles',
   'whitenoise',
   'timezones',
-  'rest_framework',
-  'rest_framework_swagger'
+  'rest_framework'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -107,7 +106,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = 'server/staticfiles'
 STATIC_URL = '/static/'
 
 # STATICFILES_DIRS = (

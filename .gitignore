@@ -76,4 +76,8 @@ node_modules
 
 staticfiles
 
-~$
+node_modules
+bower_components
+
+app/build
+app/dist

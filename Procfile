@@ -1,4 +1,4 @@
-web: waitress-serve --port=$PORT toptal.wsgi:application
-migrate: python manage.py migrate
-collectstatic: python manage.py collectstatic
-createsuperuser: python manage.py createsuperuser
+web: cd server && waitress-serve --port=$PORT toptal.wsgi:application
+migrate: cd server && python manage.py migrate
+collectstatic: cd server && python manage.py collectstatic
+createsuperuser: cd server && python manage.py createsuperuser

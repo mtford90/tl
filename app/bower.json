@@ -1,0 +1,30 @@
+{
+  "name": "jigsaw-webapp",
+  "version": "0.0.1",
+  "authors": [
+    "Michael Ford <mtford@gmail.com>"
+  ],
+  "license": "ISC",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.13.1",
+    "font-awesome": "~4.3.0",
+    "es5-shim": "~4.1.0",
+    "immutable": "~3.6.4",
+    "moment": "~2.9.0",
+    "jquery": "~2.1.3",
+    "react-router": "~0.13.1",
+    "pouchdb": "~3.3.1",
+    "semantic-ui": "~1.11.4",
+    "react-semantify": "jessy1092/react-semantify#649453e165078bc4ec6e2b7ae70a3b665d5495bc",
+    "underscore": "~1.8.2"
+  },
+  "devDependencies": {}
+}
