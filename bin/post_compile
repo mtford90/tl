@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+./server/manage.py migrate --noinput
+./server/manage.py collectstatic --noinput
