@@ -139,9 +139,9 @@ gulp.task('dist:css', ['dist:css:app', 'dist:css:vendor']);
 
 gulp.task('dist:html', function () {
   return dot(config.path.dist.index, {
-    js: relativeTo(config.dist, [config.path.dist.vendorjs, config.path.dist.js]),
-    css: relativeTo(config.dist, [config.path.dist.css]),
-    vendorcss: relativeTo(config.dist, [config.path.dist.vendorcss]),
+    js: relativeTo(config.dist, [config.path.dist.vendorjs, config.path.dist.js]).map(function (x) {return 'static/timezones/' + x}),
+    css: relativeTo(config.dist, [config.path.dist.css]).map(function (x) {return 'static/timezones/' + x}),
+    vendorcss: relativeTo(config.dist, [config.path.dist.vendorcss]).map(function (x) {return 'static/timezones/' + x}),
     test: false
   });
 });

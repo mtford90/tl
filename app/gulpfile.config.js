@@ -1,7 +1,8 @@
 module.exports = new (function () {
   this.src = './src';
   this.build = './build';
-  this.dist = './dist';
+  this.dist = '../server/staticfiles/timezones';
+  this.templates = '../server/timezones/templates';
 
   var jsGlob = '/js/**/*.js';
   var specGlob = '/js/**/*.spec.js';
@@ -54,7 +55,7 @@ module.exports = new (function () {
       vendorjs: this.dist + '/js/vendor.js',
       css: this.dist + '/css/main.css',
       vendorcss: this.dist + '/css/vendor.css',
-      index: this.dist + '/index.html'
+      index: this.templates + '/index.html'
     }
   };
 
