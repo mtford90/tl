@@ -42,7 +42,6 @@ module.exports = new (function () {
   this.path = {
     dev: {
       dot: this.src + '/index.dot',
-      specDot: this.src + '/index.mocha.dot',
       index: this.build + '/index.html',
       specIndex: this.build + '/index.mocha.html'
     },

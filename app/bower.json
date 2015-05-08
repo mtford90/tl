@@ -26,5 +26,9 @@
     "react-semantify": "jessy1092/react-semantify#649453e165078bc4ec6e2b7ae70a3b665d5495bc",
     "underscore": "~1.8.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "es5-shim": "~4.1.1",
+    "mocha": "~2.2.4",
+    "chai": "~2.3.0"
+  }
 }

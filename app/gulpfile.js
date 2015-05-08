@@ -44,12 +44,17 @@ gulp.task('build:test', function (done) {
   var root = config.build,
     vendorjs = relativeTo(root, config.vendor.js),
     js = relativeTo(root, [config.path.build.bundle]);
-  glob(config.glob.dev.spec, function (err, specs) {
-    dot(config.path.dev.specIndex, {
+  var specPath = config.glob.dev.spec,
+    specIndex = config.path.dev.specIndex;
+  console.log('specPath', specPath);
+  glob(specPath, function (err, specs) {
+    console.log('specs', specs);
+    var relativeSpecs = relativeTo(root, specs);
+    js = js.concat(relativeSpecs);
+    dot(specIndex, {
       js: js,
       vendorjs: vendorjs,
       livereloadPort: config.livereload.port,
-      spec: relativeTo(root, specs),
       test: true
     }).on('end', done);
   });

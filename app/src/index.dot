@@ -6,10 +6,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title></title>
   {{? it.test }}
-  <link rel="stylesheet" href="../node_modules/mocha/mocha.css"/>
-  <script src="../node_modules/es5-shim/es5-shim.js"></script>
-  <script src="../node_modules/mocha/mocha.js"></script>
-  <script src="../node_modules/chai/chai.js"></script>
+  <link rel="stylesheet" href="bower_components/mocha/mocha.css"/>
+  <script src="bower_components/es5-shim/es5-shim.js"></script>
+  <script src="bower_components/mocha/mocha.js"></script>
+  <script src="bower_components/chai/chai.js"></script>
   <script>mocha.setup('bdd')</script>
   <script> onload = function() {
     mocha.globals(['jQuery']);
@@ -28,9 +28,11 @@
 
 {{? it.test }}
 <div id="mocha"></div>
+<div id="app" style="visibility: hidden"></div>
 {{??}}
 <div id="app"></div>
 {{?}}
+
 
 {{~it.vendorjs :value:index}}
 <script src="{{=value}}" type="text/javascript"></script>
@@ -42,6 +44,8 @@
 {{? it.livereloadPort }}
 <script src="http://localhost:{{=it.livereloadPort}}/livereload.js"></script>
 {{?}}
+
+
 
 </body>
 </html>
