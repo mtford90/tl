@@ -75,7 +75,8 @@ module.exports = new (function () {
       BOWER + 'react-semantify/dst/react-semantify.js',
       BOWER + 'rangy/rangy-core.js',
       BOWER + 'rangy/rangy-serializer.js',
-      BOWER + 'underscore/underscore.js'
+      BOWER + 'underscore/underscore.js',
+      BOWER + 'reflux/dist/reflux.js'
     ],
     css: [
       BOWER + 'font-awesome/css/font-awesome.css',
@@ -99,7 +100,8 @@ module.exports = new (function () {
         'react': 'React',
         'jQuery': '$',
         'immutable': 'Immutable',
-        'underscore': '_'
+        'underscore': '_',
+        'reflux': 'Reflux'
       },
       devtool: '#eval-source-map',
       module: {

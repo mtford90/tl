@@ -11,6 +11,10 @@ html, body {
 #app {
   padding-top: 15px;
   padding-bottom: 15px;
+  height: 100%;
+  > div:first-child{
+    height: 100%;
+  }
 }
 
 @import "pages/manifest";

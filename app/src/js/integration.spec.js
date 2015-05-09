@@ -100,7 +100,6 @@ describe('api integration', function () {
     });
   });
 
-
   it('get timezones', function (done) {
     var username = guid().slice(0, 30);
     var password = guid();
@@ -124,6 +123,7 @@ describe('api integration', function () {
       }
     });
   });
+
   it('create timezone', function (done) {
     var username = guid().slice(0, 30);
     var password = guid();
@@ -151,6 +151,7 @@ describe('api integration', function () {
       }
     });
   });
+
   it('update timezone', function (done) {
     var username = guid().slice(0, 30);
     var password = guid();
@@ -188,6 +189,7 @@ describe('api integration', function () {
       }
     });
   });
+
   it('delete timezone', function (done) {
     var username = guid().slice(0, 30);
     var password = guid();
@@ -224,6 +226,7 @@ describe('api integration', function () {
       }
     });
   });
+
   it('filter timezones', function (done) {
     var username = guid().slice(0, 30);
     var password = guid();
