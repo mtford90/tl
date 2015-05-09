@@ -6,8 +6,8 @@ from django.template.response import TemplateResponse
 from rest_framework import viewsets
 from timezones.models import ToptalUser, Timezone
 from timezones.serializers import UserSerializer, TimezoneSerializer
+from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.reverse import reverse
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -19,13 +19,27 @@ class TimezoneViewSet(viewsets.ModelViewSet):
   queryset = Timezone.objects.all()
   serializer_class = TimezoneSerializer
   permission_classes = (IsAuthenticated,)
+  filter_backends = (SearchFilter,)
+  search_fields = ('timezone', 'name')
 
   def get_queryset(self):
     user = self.request.user
-    return self.queryset.filter(user=user)
+    if not user.is_anonymous():
+      qs = self.queryset.filter(user=user)
+      print(qs)
+      return qs
+    return self.queryset
 
   def perform_create(self, serializer):
-    serializer.save(user=self.request.user)
+    user = self.request.user
+    if user:
+      serializer.save(user=user)
+    else:
+      serializer.save()
+
+  def perform_update(self, serializer):
+    serializer.save()
+
 
 
 def index(request):

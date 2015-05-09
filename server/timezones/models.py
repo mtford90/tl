@@ -15,5 +15,6 @@ class ToptalUser(AbstractUser):
 
 
 class Timezone(models.Model):
+  name = CharField(max_length=200, default='', blank=True)
   timezone = CharField(max_length=200, default='', blank=True)
   user = ForeignKey('ToptalUser', related_name='timezones')

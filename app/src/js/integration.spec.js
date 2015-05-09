@@ -151,9 +151,103 @@ describe('api integration', function () {
       }
     });
   });
-  it('update timezone');
-  it('delete timezone');
-  it('filter timezones');
+  it('update timezone', function (done) {
+    var username = guid().slice(0, 30);
+    var password = guid();
+
+    register(username, password, function (err, data) {
+      if (!err) {
+        var authToken = data.auth_token;
+        var authHeader = 'Token ' + authToken;
+        $.ajax({
+          type: "POST",
+          data: {
+            timezone: 'Europe/London'
+          },
+          headers: {
+            'Authorization': authHeader
+          },
+          url: url('/api/timezones/'),
+          dataType: 'json'
+        }).success(function (data) {
+          $.ajax({
+            type: "PUT",
+            data: data,
+            headers: {
+              'Authorization': authHeader
+            },
+            url: data.url,
+            dataType: 'json'
+          }).success(function () {
+            done();
+          }).fail(done);
+        }).fail(done);
+      }
+      else {
+        done(err);
+      }
+    });
+  });
+  it('delete timezone', function (done) {
+    var username = guid().slice(0, 30);
+    var password = guid();
+
+    register(username, password, function (err, data) {
+      if (!err) {
+        var authToken = data.auth_token;
+        var authHeader = 'Token ' + authToken;
+        $.ajax({
+          type: "POST",
+          data: {
+            name: 'Test',
+            timezone: 'Europe/London'
+          },
+          headers: {
+            'Authorization': authHeader
+          },
+          url: url('/api/timezones/'),
+          dataType: 'json'
+        }).success(function (data) {
+          $.ajax({
+            type: "DELETE",
+            headers: {
+              'Authorization': authHeader
+            },
+            url: data.url
+          }).success(function () {
+            done();
+          }).fail(done);
+        }).fail(done);
+      }
+      else {
+        done(err);
+      }
+    });
+  });
+  it('filter timezones', function (done) {
+    var username = guid().slice(0, 30);
+    var password = guid();
+
+    register(username, password, function (err, data) {
+      if (!err) {
+        var authToken = data.auth_token;
+        var authHeader = 'Token ' + authToken;
+        $.ajax({
+          type: "GET",
+          headers: {
+            'Authorization': authHeader
+          },
+          url: url('/api/timezones/?search=Test'),
+          dataType: 'json'
+        }).success(function () {
+          done();
+        }).fail(done);
+      }
+      else {
+        done(err);
+      }
+    });
+  });
 
 
 });
