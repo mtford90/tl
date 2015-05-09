@@ -38,78 +38,107 @@ import {Route, Redirect, NotFoundRoute, RouteHandler, Link, DefaultRoute} from '
 //}
 
 class Login extends React.Component {
+
+  constructor(props) {
+    this.state = {error: null};
+  }
+
   submit() {
 
   }
 
   render() {
+    if (this.state.error) {
+      var error = <div className="ui negative message">
+        <p>{this.state.error}</p>
+      </div>
+    }
+    else {
+      error = '';
+    }
     return (
       <form className="ui six wide column centered form segment  grid">
 
         <h3 className="ui header centered ">Login</h3>
-        <div class="ui column required field ">
-          <div class="ui icon input">
+        <div className="ui column icon input">
+          <div className="ui icon input">
             <input type="text" placeholder="Username"/>
-            <i class="user icon"></i>
+            <i className="user icon"></i>
           </div>
         </div>
-        <div class="required field">
-          <div class="ui column icon input">
+        <div className="required field">
+          <div className="ui column icon input">
             <input type="password" placeholder="Password"/>
-            <i class="lock icon"></i>
+            <i className="lock icon"></i>
           </div>
         </div>
 
         <button className="ui submit button " type="submit" onsubmit={this.submit()}>Login</button>
-        <div>
+
+        <div className="ui column input">
           <Link to="register" className="item">
           {'Need an account?'}
           </Link>
         </div>
 
-
+      {error}
       </form>
     )
 
   }
+
+
 }
 
 class Register extends React.Component {
+  constructor(props) {
+    this.state = {error: null};
+  }
+
   submit() {
 
   }
 
   render() {
+    if (this.state.error) {
+      var error = <div className="ui negative message">
+        <p>{this.state.error}</p>
+      </div>
+    }
+    else {
+      error = '';
+    }
     return (
       <form className="ui six wide column centered form segment  grid">
 
         <h3 className="ui header centered ">Register</h3>
-        <div class="ui column required field ">
-          <div class="ui icon input">
+        <div className="ui column icon input">
+          <div className="ui icon input">
             <input type="text" placeholder="Username"/>
-            <i class="user icon"></i>
+            <i className="user icon"></i>
           </div>
         </div>
-        <div class="required field">
-          <div class="ui column icon input">
+        <div className="required field">
+          <div className="ui column icon input">
             <input type="password" placeholder="Password"/>
-            <i class="lock icon"></i>
+            <i className="lock icon"></i>
           </div>
         </div>
-        <div class="required field">
-          <div class="ui column icon input">
+        <div className="required field">
+          <div className="ui column icon input">
             <input type="password" placeholder="Repeat Password"/>
-            <i class="lock icon"></i>
+            <i className="lock icon"></i>
           </div>
         </div>
 
         <button className="ui button " type="submit"  onsubmit={this.submit()}>Register</button>
-           <div>
+        <div className="ui column input">
           <Link to="login" className="item">
           {'Already have an account?'}
           </Link>
         </div>
 
+        {error}
       </form>
     )
 
