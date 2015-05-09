@@ -27,10 +27,7 @@ describe('api integration', function () {
       .fail(done);
   });
 
-  it('user registration', function (done) {
-    var username = guid().slice(0, 30);
-    var password = guid();
-
+  function register(username, password, cb) {
     $.ajax({
       type: "POST",
       url: url('/api/auth/register/'),
@@ -40,10 +37,66 @@ describe('api integration', function () {
       },
       dataType: 'json'
     }).success(function (data) {
-      assert.equal(data.username, username);
-      done();
-    })
-      .fail(done);
+      cb(null, data);
+    }).fail(cb);
+  }
 
+  it('user registration', function (done) {
+    var username = guid().slice(0, 30);
+    var password = guid();
+
+    register(username, password, function (err, data) {
+      if (!err) {
+        assert.equal(data.username, username);
+      }
+      done(err);
+    });
+  });
+
+  it('login', function (done) {
+    var username = guid().slice(0, 30);
+    var password = guid();
+
+    register(username, password, function (err) {
+      if (!err) {
+        $.ajax({
+          type: "POST",
+          url: url('/api/auth/login/'),
+          data: {
+            username: username,
+            password: password
+          },
+          dataType: 'json'
+        }).success(function (data) {
+          done();
+        }).fail(done);
+      }
+      else {
+        done(err);
+      }
+    });
+  });
+
+  it('user details', function (done) {
+    var username = guid().slice(0, 30);
+    var password = guid();
+
+    register(username, password, function (err, data) {
+      if (!err) {
+        var authHeader = 'Token ' + data.auth_token;
+        $.ajax({
+          type: "GET",
+          headers: {
+            'Authorization': authHeader
+          },
+          url: url('/api/auth/me/')
+        }).success(function () {
+          done();
+        }).fail(done);
+      }
+      else {
+        done(err);
+      }
+    });
   });
 });
