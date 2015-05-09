@@ -40,34 +40,42 @@ gulp.task('build:index', function () {
   });
 });
 
-gulp.task('build:test', function (done) {
+gulp.task('build:test:html', function (done) {
   var root = config.build,
     vendorjs = relativeTo(root, config.vendor.js),
-    js = relativeTo(root, [config.path.build.bundle]);
-  var specPath = config.glob.dev.spec,
-    specIndex = config.path.dev.specIndex;
-  console.log('specPath', specPath);
-  glob(specPath, function (err, specs) {
-    console.log('specs', specs);
-    var relativeSpecs = relativeTo(root, specs);
-    js = js.concat(relativeSpecs);
-    dot(specIndex, {
-      js: js,
-      vendorjs: vendorjs,
-      livereloadPort: config.livereload.port,
-      test: true
-    }).on('end', done);
-  });
+    js = relativeTo(root, [config.path.build.bundle, config.path.build.testBundle]);
+
+  dot(config.path.dev.specIndex, {
+    js: js,
+    vendorjs: vendorjs,
+    livereloadPort: config.livereload.port,
+    test: true
+  }).on('end', done);
+});
+
+gulp.task('build:test', function (done) {
+  runSequence(
+    'tst123',
+    'build:test:html',
+    done
+  )
 });
 
 gulp.task('build:js', function () {
   return gulp.src([config.glob.dev.js, '!' + config.glob.dev.spec])
-    .pipe(plugins.webpack(config.webpack))
+    .pipe(plugins.webpack(config.webpack.bundle))
     .pipe(plugins.rename('bundle.js'))
     .pipe(gulp.dest(config.dir.build.js))
     .pipe(plugins.livereload({port: config.livereload.port}));
 });
 
+gulp.task('tst123', function () {
+  return gulp.src(__dirname + '/src/js/**/*.spec.js')
+    .pipe(plugins.webpack(config.webpack.test))
+    .pipe(plugins.rename('test-bundle.js'))
+    .pipe(gulp.dest(config.dir.build.js))
+    .pipe(plugins.livereload({port: config.livereload.port}));
+});
 
 gulp.task('watch:sass', function () {
   return gulp.watch(config.glob.dev.sass, ['build:sass']);
@@ -80,7 +88,6 @@ gulp.task('build:sass', function () {
     .pipe(gulp.dest(config.dir.build.css))
     .pipe(plugins.rename(config.file.build.css))
     .pipe(plugins.livereload({port: config.livereload.port}));
-
 });
 
 gulp.task('serve', function () {
@@ -95,7 +102,8 @@ gulp.task('livereload:listen', function () {
 });
 
 gulp.task('watch:js', function () {
-  return gulp.watch(config.glob.dev.js, ['build:js'])
+  gulp.watch([config.glob.dev.js, '!' + config.glob.dev.spec], ['build:js', 'tst123']);
+  gulp.watch([config.glob.dev.spec], ['tst123']);
 });
 
 gulp.task('watch', ['build', 'watch:js', 'watch:sass', 'livereload:listen', 'serve']);
@@ -159,10 +167,10 @@ gulp.task('dist', ['build'], function (done) {
 
 gulp.task('build', function (done) {
   runSequence(
-    'build:js',
     'build:sass',
     'build:index',
     'build:test',
+    'build:js',
     done
   )
 });

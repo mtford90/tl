@@ -47,7 +47,8 @@ module.exports = new (function () {
     },
     build: {
       css: this.dir.build.css + '/' + this.file.build.css,
-      bundle: this.dir.build.js + '/bundle.js'
+      bundle: this.dir.build.js + '/bundle.js',
+      testBundle: this.dir.build.js + '/test-bundle.js'
     },
     dist: {
       js: this.dist + '/js/bundle.js',
@@ -92,24 +93,45 @@ module.exports = new (function () {
   };
 
   this.webpack = {
-    externals: {
-      'react-router': 'ReactRouter',
-      'react': 'React',
-      'siesta': 'siesta',
-      'jQuery': '$',
-      'immutable': 'Immutable',
-      'underscore': '_'
+    bundle: {
+      externals: {
+        'react-router': 'ReactRouter',
+        'react': 'React',
+        'jQuery': '$',
+        'immutable': 'Immutable',
+        'underscore': '_'
+      },
+      devtool: '#eval-source-map',
+      module: {
+        loaders: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader'
+          }
+        ]
+      }
     },
-    devtool: '#eval-source-map',
-    module: {
-      loaders: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'babel-loader'
-        }
-      ]
+    test: {
+      externals: {
+        'react-router': 'ReactRouter',
+        'react': 'React',
+        'jQuery': '$',
+        'immutable': 'Immutable',
+        'underscore': '_'
+      },
+      devtool: '#eval-source-map',
+      module: {
+        loaders: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader'
+          }
+        ]
+      }
     }
+
   };
 
   this.livereload = {
