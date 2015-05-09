@@ -3,8 +3,7 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        Welcome to Timezones.
-
+        Welcome to Toptal Timezones.
       </div>
     )
   }
