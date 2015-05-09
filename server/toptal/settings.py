@@ -39,12 +39,21 @@ INSTALLED_APPS = (
   'django.contrib.messages',
   'django.contrib.staticfiles',
   'whitenoise',
+  'corsheaders',
   'timezones',
-  'rest_framework'
+  'rest_framework',
+  'rest_framework.authtoken',
+  # 'rest_auth',
+  # 'allauth',
+  # 'allauth.account',
+  # 'rest_auth.registration'
+  'djoser',
+
 )
 
 MIDDLEWARE_CLASSES = (
   'django.contrib.sessions.middleware.SessionMiddleware',
+  'corsheaders.middleware.CorsMiddleware',
   'django.middleware.common.CommonMiddleware',
   'django.middleware.csrf.CsrfViewMiddleware',
   'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -53,6 +62,9 @@ MIDDLEWARE_CLASSES = (
   'django.middleware.clickjacking.XFrameOptionsMiddleware',
   'django.middleware.security.SecurityMiddleware',
 )
+
+if DEBUG:
+  CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'toptal.urls'
 
@@ -134,5 +146,10 @@ REST_FRAMEWORK = {
   # or allow read-only access for unauthenticated users.
   'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-  ]
+  ],
+  'DEFAULT_AUTHENTICATION_CLASSES': (
+    'rest_framework.authentication.TokenAuthentication',
+  ),
+
 }
+

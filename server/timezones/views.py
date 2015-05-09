@@ -19,5 +19,9 @@ class TimezoneViewSet(viewsets.ModelViewSet):
 
 
 def index(request):
-    response = TemplateResponse(request, 'index.html', {})
-    return response
+  response = TemplateResponse(request, 'index.html', {})
+  return response
+
+
+
+
