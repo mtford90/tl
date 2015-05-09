@@ -110,6 +110,7 @@ gulp.task('watch', ['build', 'watch:js', 'watch:sass', 'livereload:listen', 'ser
 
 gulp.task('dist:js:app', function () {
   return gulp.src(config.path.build.bundle)
+    .pipe(plugins.replace('http://127.0.0.1:8000', ''))
     .pipe(plugins.uglify())
     .pipe(gulp.dest(config.dir.dist.js));
 });
