@@ -10,5 +10,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class TimezoneSerializer(serializers.HyperlinkedModelSerializer):
+  user = UserSerializer(read_only=True)
+
   class Meta:
     model = Timezone

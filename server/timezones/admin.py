@@ -15,6 +15,6 @@ class ToptalUserAdmin(admin.ModelAdmin):
 
 @admin.register(Timezone)
 class TimezoneAdmin(admin.ModelAdmin):
-  list_display = ('city', )
-  list_filter = ('city', )
-  search_fields = ('city', )
+  list_display = ('timezone', )
+  list_filter = ('timezone', )
+  search_fields = ('timezone', )

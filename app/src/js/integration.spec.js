@@ -99,4 +99,61 @@ describe('api integration', function () {
       }
     });
   });
+
+
+  it('get timezones', function (done) {
+    var username = guid().slice(0, 30);
+    var password = guid();
+
+    register(username, password, function (err, data) {
+      if (!err) {
+        var authToken = data.auth_token;
+        var authHeader = 'Token ' + authToken;
+        $.ajax({
+          type: "GET",
+          headers: {
+            'Authorization': authHeader
+          },
+          url: url('/api/timezones/')
+        }).success(function () {
+          done();
+        }).fail(done);
+      }
+      else {
+        done(err);
+      }
+    });
+  });
+  it('create timezone', function (done) {
+    var username = guid().slice(0, 30);
+    var password = guid();
+
+    register(username, password, function (err, data) {
+      if (!err) {
+        var authToken = data.auth_token;
+        var authHeader = 'Token ' + authToken;
+        $.ajax({
+          type: "POST",
+          data: {
+            timezone: 'Europe/London'
+          },
+          headers: {
+            'Authorization': authHeader
+          },
+          url: url('/api/timezones/'),
+          dataType: 'json'
+        }).success(function () {
+          done();
+        }).fail(done);
+      }
+      else {
+        done(err);
+      }
+    });
+  });
+  it('update timezone');
+  it('delete timezone');
+  it('filter timezones');
+
+
 });
