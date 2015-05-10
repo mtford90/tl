@@ -45,6 +45,7 @@ var Timezone = React.createClass({
   },
   onDeletePressed: function () {
     var timezone = this.state.timezone;
+    console.log('onDeletePressed', timezone);
     api.deleteTimezone(timezone, function (err) {
       if (err) {
         console.error('Error deleting timezone!', err);
@@ -55,6 +56,7 @@ var Timezone = React.createClass({
     })
   },
   renderNotEditing: function () {
+    var timezone = this.state.timezone;
     return (
       <div className="timezone">
         <div className="buttons">
@@ -62,9 +64,9 @@ var Timezone = React.createClass({
           <i className="ui link cancel icon delete" onClick={this.onDeletePressed}/>
         </div>
         <div className="inner-timezone">
-          <header>{this.state.timezone.name}</header>
+          <header>{timezone.name}</header>
           <main>{this.state.time}</main>
-          <footer className="timezone-name">{this.state.timezone.timezone}</footer>
+          <footer className="timezone-name">{timezone.timezone}</footer>
         </div>
       </div>
     )
@@ -74,6 +76,7 @@ var Timezone = React.createClass({
     this.forceUpdate();
   },
   renderEditing: function () {
+    var timezone = this.state.timezone;
     return (
       <div className="timezone">
         <div className="buttons">
@@ -90,18 +93,17 @@ var Timezone = React.createClass({
             </div>
           </header>
           <main>{this.state.time}</main>
-
           <footer className="timezone-name">
             <div className="ui selection dropdown" ref="dropdown">
               <input name="timezone" type="hidden" />
-              <div className="text">{this.state.timezone.timezone}</div>
+              <div className="text">{timezone.timezone}</div>
               <i className="dropdown icon"></i>
               <div className="menu">
-              {this.state.timezoneNames.map(function (name, idx) {
-                return (
-                  <div className="item" data-value={idx} key={idx}>{name}</div>
-                )
-              })}
+                {this.state.timezoneNames.map(function (name, idx) {
+                  return (
+                    <div className="item" data-value={idx} key={idx}>{name}</div>
+                  )
+                })}
               </div>
             </div>
           </footer>
@@ -131,6 +133,9 @@ var Timezone = React.createClass({
     clearInterval(this.interval);
   },
   componentWillReceiveProps: function (nextProps) {
+    this.setState({
+      timezone: nextProps.timezone
+    });
   }
 });
 

@@ -9,21 +9,15 @@ var Home = React.createClass({
   render() {
     return (
       <div id="timezones">
-        {this.state.timezones.map(function (t, idx) {
-          return <Timezone timezone={t} key={idx}/>
-        })}
+        {data.timezoneStore.timezones.length ? data.timezoneStore.timezones.map(function (t, idx) {
+          console.log('Creating timezone component', t);
+          return <Timezone timezone={t} key={idx} idx={idx}/>
+        }) : 'You havent created any timezones yet.'}
       </div>
     )
   },
-  getInitialState: function () {
-    return {
-      timezones: data.timezoneStore.timezones
-    };
-  },
-  onTimezoneChange: function (timezones) {
-    this.setState({
-      timezones: timezones
-    });
+  onTimezoneChange: function () {
+    this.forceUpdate();
   }
 });
 

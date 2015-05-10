@@ -27,6 +27,7 @@ var LoggedIn = React.createClass({
   mixins: [Router.Navigation, Router.State],
   searchTimezones: function () {
     this.transitionTo('home');
+    api.searchTimezones(this.state.searchString);
   },
   addTimezone: function () {
     this.transitionTo('home');
@@ -43,6 +44,12 @@ var LoggedIn = React.createClass({
       }
     });
   },
+  onSearchChange: function (e) {
+    var searchString = e.target.value;
+    this.setState({
+      searchString: searchString
+    })
+  },
   render: function () {
     var user = data.userStore.user;
     var username = user ? user.username : '';
@@ -57,7 +64,7 @@ var LoggedIn = React.createClass({
             </div>
             <div className="item">
               <div className="ui transparent icon input">
-                <input placeholder="Search..." type="text"/>
+                <input placeholder="Search..." type="text" onChange={this.onSearchChange}/>
                 <i className="search link icon" onClick={this.searchTimezones}></i>
               </div>
             </div>

@@ -91,6 +91,20 @@ module.exports = {
       cb(null, timezones);
     }).fail(cb);
   },
+  searchTimezones: function (searchString, cb) {
+    cb = cb || function () {};
+    $.ajax({
+      type: "GET",
+      headers: {
+        'Authorization': getAuthHeader()
+      },
+      url: url('/api/timezones/?search=' + searchString),
+      dataType: 'json'
+    }).success(function (timezones) {
+      data.timezoneActions.getTimezones(timezones);
+      cb();
+    }).fail(cb);
+  },
   updateTimezone: function (timezone, cb) {
     if (timezone.url) {
       $.ajax({
@@ -118,10 +132,14 @@ module.exports = {
           'Authorization': getAuthHeader()
         },
         url: timezone.url
-      }).success(function (timezones) {
-        data.timezoneActions.deleteTimezone(timezone, cb);
-        cb(null, timezones);
-      }).fail(cb);
+      }).success(function () {
+        data.timezoneActions.deleteTimezone(timezone);
+        cb(null);
+      }).fail(function (jqXHR) {
+        var err = jqXHR.responseText;
+        console.error('Error deleting timezone:', err);
+        cb(err);
+      });
     }
     else {
       // Not saved yet.

@@ -53,7 +53,11 @@ var timezoneStore = Reflux.createStore({
   },
   onDeleteTimezone: function (timezone) {
     var idx = this.timezones.indexOf(timezone);
-    this.timezones.splice(idx, 1);
+    console.log('idx', idx);
+    var oDelete = this.timezones[idx];
+    console.log('oDelete', oDelete);
+    oDelete = this.timezones.splice(idx, 1);
+    console.log('oDelete', oDelete);
     this._trigger();
   },
   onSearchTimezonez: function (searchString) {
@@ -64,7 +68,8 @@ var timezoneStore = Reflux.createStore({
     this._trigger();
   },
   _trigger: function () {
-    this.trigger(this.timezones);
+    var timezones = this.timezones;
+    this.trigger(timezones);
   }
 });
 
