@@ -28,7 +28,8 @@ var Timezone = React.createClass({
       );
     });
   },
-  onDonePressed: function () {
+  onDonePressed: function (e) {
+    e.preventDefault();
     this.setState({
       editing: false
     });
@@ -47,12 +48,8 @@ var Timezone = React.createClass({
     var timezone = this.state.timezone;
     console.log('onDeletePressed', timezone);
     api.deleteTimezone(timezone, function (err) {
-      if (err) {
-        console.error('Error deleting timezone!', err);
-      }
-      else {
-        console.info('Successfully deleted timezone!');
-      }
+      if (err) console.error('Error deleting timezone!', err);
+      else console.info('Successfully deleted timezone!');
     })
   },
   renderNotEditing: function () {
