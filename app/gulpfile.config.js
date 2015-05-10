@@ -64,6 +64,7 @@ module.exports = new (function () {
   this.vendor = {
     js: [
       BOWER + 'jquery/dist/jquery.js',
+      BOWER + 'jquery.cookie/jquery.cookie.js',
       BOWER + 'es5-shim/es5-shim.js',
       BOWER + 'react/react-with-addons.js',
       BOWER + 'react-router/build/umd/ReactRouter.js',

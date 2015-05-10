@@ -13,11 +13,17 @@ function getAuthHeader() {
   var authHeader = 'Token ' + authToken;
   return authHeader;
 }
+
+var csrftoken = $.cookie('csrftoken');
+
 module.exports = {
   register: function (username, password, cb) {
     $.ajax({
       type: "POST",
       url: url('/api/auth/register/'),
+      headers: {
+        'X-CSRFToken': csrftoken
+      },
       data: {
         username: username,
         password: password
@@ -40,6 +46,9 @@ module.exports = {
     $.ajax({
       type: "POST",
       url: url('/api/auth/login/'),
+      headers: {
+        'X-CSRFToken': csrftoken
+      },
       data: {
         username: username,
         password: password
@@ -70,7 +79,8 @@ module.exports = {
       type: "POST",
       data: timezone,
       headers: {
-        'Authorization': getAuthHeader()
+        'Authorization': getAuthHeader(),
+        'X-CSRFToken': csrftoken
       },
       url: url('/api/timezones/'),
       dataType: 'json'
@@ -83,7 +93,8 @@ module.exports = {
     $.ajax({
       type: "GET",
       headers: {
-        'Authorization': getAuthHeader()
+        'Authorization': getAuthHeader(),
+        'X-CSRFToken': csrftoken
       },
       url: url('/api/timezones/')
     }).success(function (timezones) {
@@ -96,7 +107,8 @@ module.exports = {
     $.ajax({
       type: "GET",
       headers: {
-        'Authorization': getAuthHeader()
+        'Authorization': getAuthHeader(),
+        'X-CSRFToken': csrftoken
       },
       url: url('/api/timezones/?search=' + searchString),
       dataType: 'json'
@@ -111,7 +123,8 @@ module.exports = {
         type: "PUT",
         data: timezone,
         headers: {
-          'Authorization': getAuthHeader()
+          'Authorization': getAuthHeader(),
+          'X-CSRFToken': csrftoken
         },
         url: timezone.url
       }).success(function (timezones) {
@@ -129,7 +142,8 @@ module.exports = {
       $.ajax({
         type: "DELETE",
         headers: {
-          'Authorization': getAuthHeader()
+          'Authorization': getAuthHeader(),
+          'X-CSRFToken': csrftoken
         },
         url: timezone.url
       }).success(function () {

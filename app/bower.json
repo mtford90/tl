@@ -24,12 +24,13 @@
     "pouchdb": "~3.3.1",
     "semantic-ui": "~1.11.4",
     "react-semantify": "jessy1092/react-semantify#649453e165078bc4ec6e2b7ae70a3b665d5495bc",
-    "underscore": "~1.8.2"
+    "underscore": "~1.8.2",
+    "jquery.cookie": "~1.4.1",
+    "moment-timezone": "~0.3.1"
   },
   "devDependencies": {
     "es5-shim": "~4.1.1",
     "mocha": "~2.2.4",
-    "chai": "~2.3.0",
-    "moment-timezone": "~0.3.1"
+    "chai": "~2.3.0"
   }
 }
