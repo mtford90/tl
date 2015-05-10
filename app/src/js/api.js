@@ -118,7 +118,11 @@ module.exports = {
     }).fail(cb);
   },
   updateTimezone: function (timezone, cb) {
-    if (timezone.url) {
+    var timezoneurl = timezone.url;
+    if (!base) {
+      timezoneurl.replace('http', 'https');
+    }
+    if (timezoneurl) {
       $.ajax({
         type: "PUT",
         data: timezone,
@@ -126,7 +130,7 @@ module.exports = {
           'Authorization': getAuthHeader(),
           'X-CSRFToken': csrftoken
         },
-        url: timezone.url
+        url: timezoneurl
       }).success(function (timezones) {
         data.timezoneActions.updateTimezone(timezone, cb);
         cb(null, timezones);
@@ -138,14 +142,18 @@ module.exports = {
     }
   },
   deleteTimezone: function (timezone, cb) {
-    if (timezone.url) {
+    var url = timezone.url;
+    if (!base) {
+      url.replace('http', 'https');
+    }
+    if (url) {
       $.ajax({
         type: "DELETE",
         headers: {
           'Authorization': getAuthHeader(),
           'X-CSRFToken': csrftoken
         },
-        url: timezone.url
+        url: url
       }).success(function () {
         data.timezoneActions.deleteTimezone(timezone);
         cb(null);
