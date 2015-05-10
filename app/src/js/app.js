@@ -25,7 +25,8 @@ var LoggedIn = React.createClass({
     }
   },
   mixins: [Router.Navigation, Router.State],
-  searchTimezones: function () {
+  searchTimezones: function (e) {
+    e.preventDefault();
     this.transitionTo('home');
     api.searchTimezones(this.state.searchString);
   },
@@ -63,10 +64,10 @@ var LoggedIn = React.createClass({
               </Link>
             </div>
             <div className="item">
-              <div className="ui transparent icon input">
+              <form className="ui transparent icon input" onSubmit={this.searchTimezones}>
                 <input placeholder="Search..." type="text" onChange={this.onSearchChange}/>
                 <i className="search link icon" onClick={this.searchTimezones}></i>
-              </div>
+              </form>
             </div>
             <div className="item">
               <i className="plus link icon" onClick={this.addTimezone}></i>
