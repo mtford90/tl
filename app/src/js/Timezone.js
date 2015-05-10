@@ -1,5 +1,4 @@
 var React = require('react'),
-  classSet = React.addons.classSet,
   moment = require('moment');
 
 var Timezone = React.createClass({
@@ -52,11 +51,15 @@ var Timezone = React.createClass({
   renderEditing: function () {
     return (
       <div className="timezone">
-        <i className="ui link cancel icon edit" onClick={this.onDonePressed.bind(this)}/>
-        <div className="inner-timezone">
+        <i className="ui link checkmark icon edit" onClick={this.onDonePressed.bind(this)}/>
+        <form className="inner-timezone" onSubmit={this.onDonePressed.bind(this)}>
           <header>
             <div className="ui input name-input">
-              <input name="name" type="text" placeholder="Name" value={this.state.timezone.name} onChange={this.onNameChange.bind(this)}/>
+              <input name="name"
+                type="text"
+                placeholder="Name"
+                value={this.state.timezone.name}
+                onChange={this.onNameChange.bind(this)}/>
             </div>
           </header>
           <main>{this.state.time}</main>
@@ -75,7 +78,7 @@ var Timezone = React.createClass({
               </div>
             </div>
           </footer>
-        </div>
+        </form>
       </div>
     )
   },
@@ -95,10 +98,10 @@ var Timezone = React.createClass({
   },
   componentDidMount: function () {
     this.getCurrentTime();
-    this.cancelInterval = setInterval(this.getCurrentTime.bind(this), 1000);
+    this.interval = setInterval(this.getCurrentTime.bind(this), 1000);
   },
   componentWillUnmount: function () {
-    this.cancelInterval();
+    clearInterval(this.interval);
   },
   componentWillReceiveProps: function (nextProps) {
     console.log('nextProps', nextProps);

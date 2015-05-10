@@ -15,6 +15,12 @@ var LoggedIn = React.createClass({
     }
   },
   mixins: [Router.Navigation],
+  addTimezone: function () {
+    data.timezoneActions.createTimezone({
+      name: 'New Timezone',
+      timezone: 'Europe/London'
+    });
+  },
   render: function () {
     var user = data.userStore.user;
     var username = user ? user.username : '';
@@ -32,6 +38,9 @@ var LoggedIn = React.createClass({
                 <input placeholder="Search..." type="text"/>
                 <i className="search link icon"></i>
               </div>
+            </div>
+            <div className="item">
+              <i className="plus link icon" onClick={this.addTimezone.bind(this)}></i>
             </div>
             <div className="right menu">
               <Link to="profile" className="item link">

@@ -1,20 +1,29 @@
-var Timezone = require('./Timezone');
+var Timezone = require('./Timezone'),
+  Reflux = require('reflux'),
+  data = require('./data');
 
-export default
-class Home extends React.Component {
+
+var Home = React.createClass({
+  mixins: [Reflux.listenTo(data.timezoneStore, "onTimezoneChange")],
   render() {
-    var timezones = [
-      {
-        name: 'Blah',
-        timezone: 'Europe/Madrid'
-      }
-    ];
     return (
       <div id="timezones">
-        {timezones.map(function (t) {
+        {this.state.timezones.map(function (t) {
           return <Timezone timezone={t}/>
         })}
       </div>
     )
+  },
+  getInitialState: function () {
+    return {
+      timezones: data.timezoneStore.timezones
+    };
+  },
+  onTimezoneChange: function (timezones) {
+    this.setState({
+      timezones: timezones
+    })
   }
-}
+});
+
+module.exports = Home;

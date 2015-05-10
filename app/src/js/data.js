@@ -42,10 +42,17 @@ var timezoneActions = reflux.createActions([
 var timezoneStore = Reflux.createStore({
   init: function () {
     this.listenToMany(timezoneActions);
-    this.timezones = [];
+    this.timezones = [
+      {
+        name: 'Blah',
+        timezone: 'Europe/Madrid'
+      }
+    ];
   },
   onCreateTimezone: function (timezone) {
+    this.timezones.push(timezone);
 
+    this._trigger();
   },
   onUpdateTimezone: function (timezone) {
 
