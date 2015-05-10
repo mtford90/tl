@@ -24,9 +24,7 @@ var Home = React.createClass({
   },
   onTimezoneChange: function (timezones) {
     this.setState({
-      timezones: _.sortBy(timezones, function (t) {
-        return t.name.toLowerCase();
-      })
+      timezones: timezones
     })
   }
 });
