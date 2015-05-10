@@ -154,6 +154,8 @@ var Profile = React.createClass({
   },
   onClick: function () {
     data.userActions.logout();
+    // Wipe all timezones.
+    data.timezoneActions.getTimezones([]);
   }
 
 });
