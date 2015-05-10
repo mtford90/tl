@@ -42,26 +42,26 @@ var timezoneActions = reflux.createActions([
 var timezoneStore = Reflux.createStore({
   init: function () {
     this.listenToMany(timezoneActions);
-    this.timezones = [
-      {
-        name: 'Blah',
-        timezone: 'Europe/Madrid'
-      }
-    ];
+    this.timezones = [];
   },
   onCreateTimezone: function (timezone) {
     this.timezones.push(timezone);
-
     this._trigger();
   },
-  onUpdateTimezone: function (timezone) {
-
+  onUpdateTimezone: function () {
+    this._trigger();
+  },
+  onDeleteTimezone: function (timezone) {
+    var idx = this.timezones.indexOf(timezone);
+    this.timezones.splice(idx, 1);
+    this._trigger();
   },
   onSearchTimezonez: function (searchString) {
     this.searchString = searchString;
   },
-  onGetTimezones: function () {
-
+  onGetTimezones: function (timezones) {
+    this.timezones = timezones;
+    this._trigger();
   },
   _trigger: function () {
     this.trigger(this.timezones);

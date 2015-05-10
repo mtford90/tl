@@ -1,5 +1,6 @@
 var $ = require('jQuery'),
-  data = require('./data');
+  data = require('./data'),
+  _ = require('underscore');
 
 var base = 'http://127.0.0.1:8000';
 
@@ -7,6 +8,11 @@ function url(path) {
   return base + path;
 }
 
+function getAuthHeader() {
+  var authToken = data.userStore.user.auth_token;
+  var authHeader = 'Token ' + authToken;
+  return authHeader;
+}
 module.exports = {
   register: function (username, password, cb) {
     $.ajax({
@@ -57,6 +63,69 @@ module.exports = {
         cb('Unknown Error: ' + jqXHR.responseText);
       }
     });
+  },
+  createTimezone: function (timezone, cb) {
+    data.timezoneActions.createTimezone(timezone);
+    $.ajax({
+      type: "POST",
+      data: timezone,
+      headers: {
+        'Authorization': getAuthHeader()
+      },
+      url: url('/api/timezones/'),
+      dataType: 'json'
+    }).success(function (data) {
+      _.extend(timezone, data);
+      cb();
+    }).fail(cb);
+  },
+  getTimezones: function (cb) {
+    $.ajax({
+      type: "GET",
+      headers: {
+        'Authorization': getAuthHeader()
+      },
+      url: url('/api/timezones/')
+    }).success(function (timezones) {
+      data.timezoneActions.getTimezones(timezones);
+      cb(null, timezones);
+    }).fail(cb);
+  },
+  updateTimezone: function (timezone, cb) {
+    if (timezone.url) {
+      $.ajax({
+        type: "PUT",
+        data: timezone,
+        headers: {
+          'Authorization': getAuthHeader()
+        },
+        url: timezone.url
+      }).success(function (timezones) {
+        data.timezoneActions.updateTimezone(timezone, cb);
+        cb(null, timezones);
+      }).fail(cb);
+    }
+    else {
+      // Not saved yet.
+      cb();
+    }
+  },
+  deleteTimezone: function (timezone, cb) {
+    if (timezone.url) {
+      $.ajax({
+        type: "DELETE",
+        headers: {
+          'Authorization': getAuthHeader()
+        },
+        url: timezone.url
+      }).success(function (timezones) {
+        data.timezoneActions.deleteTimezone(timezone, cb);
+        cb(null, timezones);
+      }).fail(cb);
+    }
+    else {
+      // Not saved yet.
+      cb();
+    }
   }
-
 };

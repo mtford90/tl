@@ -1,4 +1,5 @@
 var React = require('react'),
+  api = require('./api'),
   moment = require('moment');
 
 var Timezone = React.createClass({
@@ -25,17 +26,41 @@ var Timezone = React.createClass({
           }.bind(this)
         }
       );
-    }.bind(this));
+    });
   },
   onDonePressed: function () {
     this.setState({
       editing: false
     });
+    var timezone = this.state.timezone;
+    console.log('updating timezone', timezone);
+    api.updateTimezone(timezone, function (err) {
+      if (err) {
+        console.error('Error updating timezone!', err);
+      }
+      else {
+        console.info('Successfully updated timezone');
+      }
+    });
+  },
+  onDeletePressed: function () {
+    var timezone = this.state.timezone;
+    api.deleteTimezone(timezone, function (err) {
+      if (err) {
+        console.error('Error deleting timezone!', err);
+      }
+      else {
+        console.info('Successfully deleted timezone!');
+      }
+    })
   },
   renderNotEditing: function () {
     return (
       <div className="timezone">
-        <i className="ui link pencil icon edit" onClick={this.onEditPressed.bind(this)}/>
+        <div className="buttons">
+          <i className="ui link pencil icon edit" onClick={this.onEditPressed}/>
+          <i className="ui link cancel icon delete" onClick={this.onDeletePressed}/>
+        </div>
         <div className="inner-timezone">
           <header>{this.state.timezone.name}</header>
           <main>{this.state.time}</main>
@@ -51,15 +76,17 @@ var Timezone = React.createClass({
   renderEditing: function () {
     return (
       <div className="timezone">
-        <i className="ui link checkmark icon edit" onClick={this.onDonePressed.bind(this)}/>
-        <form className="inner-timezone" onSubmit={this.onDonePressed.bind(this)}>
+        <div className="buttons">
+          <i className="ui link checkmark icon edit" onClick={this.onDonePressed}/>
+        </div>
+        <form className="inner-timezone" onSubmit={this.onDonePressed}>
           <header>
             <div className="ui input name-input">
               <input name="name"
                 type="text"
                 placeholder="Name"
                 value={this.state.timezone.name}
-                onChange={this.onNameChange.bind(this)}/>
+                onChange={this.onNameChange}/>
             </div>
           </header>
           <main>{this.state.time}</main>
@@ -72,9 +99,9 @@ var Timezone = React.createClass({
               <div className="menu">
               {this.state.timezoneNames.map(function (name, idx) {
                 return (
-                  <div className="item" data-value={idx}>{name}</div>
+                  <div className="item" data-value={idx} key={idx}>{name}</div>
                 )
-              }.bind(this))}
+              })}
               </div>
             </div>
           </footer>
@@ -98,13 +125,12 @@ var Timezone = React.createClass({
   },
   componentDidMount: function () {
     this.getCurrentTime();
-    this.interval = setInterval(this.getCurrentTime.bind(this), 1000);
+    this.interval = setInterval(this.getCurrentTime, 1000);
   },
   componentWillUnmount: function () {
     clearInterval(this.interval);
   },
   componentWillReceiveProps: function (nextProps) {
-    console.log('nextProps', nextProps);
   }
 });
 

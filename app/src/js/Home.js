@@ -1,5 +1,6 @@
 var Timezone = require('./Timezone'),
   Reflux = require('reflux'),
+  _ = require('underscore'),
   data = require('./data');
 
 
@@ -8,8 +9,8 @@ var Home = React.createClass({
   render() {
     return (
       <div id="timezones">
-        {this.state.timezones.map(function (t) {
-          return <Timezone timezone={t}/>
+        {this.state.timezones.map(function (t, idx) {
+          return <Timezone timezone={t} key={idx}/>
         })}
       </div>
     )
@@ -22,7 +23,7 @@ var Home = React.createClass({
   onTimezoneChange: function (timezones) {
     this.setState({
       timezones: timezones
-    })
+    });
   }
 });
 

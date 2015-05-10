@@ -1,6 +1,7 @@
 var Router = require('react-router'),
   React = require('react'),
   Reflux = require('reflux'),
+  api = require('./api'),
   data = require('./data');
 
 import Home from './Home';
@@ -13,12 +14,33 @@ var LoggedIn = React.createClass({
     if (!data.userStore.user) {
       this.transitionTo('login');
     }
+    else {
+      api.getTimezones(function (err, timezones) {
+        if (err) {
+          console.error('Error getting timezones', err);
+        } else {
+          console.info('Got timezones', timezones);
+        }
+      })
+    }
   },
-  mixins: [Router.Navigation],
+  mixins: [Router.Navigation, Router.State],
+  searchTimezones: function () {
+    this.transitionTo('home');
+  },
   addTimezone: function () {
-    data.timezoneActions.createTimezone({
+    this.transitionTo('home');
+    var timezone = {
       name: 'New Timezone',
       timezone: 'Europe/London'
+    };
+    api.createTimezone(timezone, function (err) {
+      if (err) {
+        console.error('Error creating timezone', err);
+      }
+      else {
+        console.info('Successfully created timezone', timezone);
+      }
     });
   },
   render: function () {
@@ -36,11 +58,11 @@ var LoggedIn = React.createClass({
             <div className="item">
               <div className="ui transparent icon input">
                 <input placeholder="Search..." type="text"/>
-                <i className="search link icon"></i>
+                <i className="search link icon" onClick={this.searchTimezones}></i>
               </div>
             </div>
             <div className="item">
-              <i className="plus link icon" onClick={this.addTimezone.bind(this)}></i>
+              <i className="plus link icon" onClick={this.addTimezone}></i>
             </div>
             <div className="right menu">
               <Link to="profile" className="item link">
@@ -97,7 +119,7 @@ var App = React.createClass({
         console.info('User logged out');
         this.transitionTo('login');
       }
-    }.bind(this));
+    });
   },
   render: function () {
     return (
@@ -118,7 +140,7 @@ var Profile = React.createClass({
         <div>
           <b>Username:</b> {{username}}
         </div>
-        <button className="ui button" id="logout-button" onClick={this.onClick.bind(this)}>Logout</button>
+        <button className="ui button" id="logout-button" onClick={this.onClick}>Logout</button>
       </div>
     )
   },

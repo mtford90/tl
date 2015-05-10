@@ -59,11 +59,16 @@
       width: 240px;
     }
   }
-  .edit {
+  .buttons {
     position: absolute;
     right: 0;
     top: 10px;
-    color: #003400;
+    .edit {
+      color: #005900;
+    }
+    .delete {
+      color: #610000;
+    }
   }
 
 }
