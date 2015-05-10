@@ -1,9 +1,22 @@
+var Timezone = require('./Timezone');
+
 export default
 class Home extends React.Component {
   render() {
+    var timezones = [
+      {}, {}, {}, {},
+      {}, {}, {}, {},
+      {}, {}, {}, {},
+      {}, {}, {}, {},
+      {}, {}, {}, {},
+      {}, {}, {}, {},
+      {}, {}, {}, {},
+    ];
     return (
-      <div>
-        Welcome to Toptal Timezones.
+      <div id="timezones">
+          {timezones.map(function (t) {
+            return <Timezone timezone={t}/>
+          })}
       </div>
     )
   }

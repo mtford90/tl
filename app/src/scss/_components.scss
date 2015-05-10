@@ -1,3 +1,54 @@
 .account {
   text-align: center !important;
 }
+
+@mixin ellipsisOverflow() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ellipsis-overflow {
+  @include ellipsisOverflow();
+}
+
+.timezone {
+  border-radius: 6px;
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 10px;
+  width: 200px;
+  height: 200px;
+  background-color: rgb(230, 230, 230);
+  padding: 10px;
+  position: relative;
+  .inner-timezone {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    header {
+      @include ellipsisOverflow();
+      font-size: 18px;
+      width: 160px;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 30px;
+    }
+    footer {
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .edit {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    color: #003400;
+  }
+
+}

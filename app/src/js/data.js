@@ -31,4 +31,39 @@ var userStore = Reflux.createStore({
   }
 });
 
-module.exports = {userActions: userActions, userStore: userStore};
+var timezoneActions = reflux.createActions([
+  'createTimezone',
+  'deleteTimezone',
+  'updateTimezone',
+  'getTimezones',
+  'searchTimezones'
+]);
+
+var timezoneStore = Reflux.createStore({
+  init: function () {
+    this.listenToMany(timezoneActions);
+    this.timezones = [];
+  },
+  onCreateTimezone: function (timezone) {
+
+  },
+  onUpdateTimezone: function (timezone) {
+
+  },
+  onSearchTimezonez: function (searchString) {
+    this.searchString = searchString;
+  },
+  onGetTimezones: function () {
+
+  },
+  _trigger: function () {
+    this.trigger(this.timezones);
+  }
+});
+
+module.exports = {
+  userActions: userActions,
+  userStore: userStore,
+  timezoneActions: timezoneActions,
+  timezoneStore: timezoneStore
+};

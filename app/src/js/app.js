@@ -105,11 +105,11 @@ var Profile = React.createClass({
     var user = data.userStore.user;
     var username = user ? user.username : '';
     return (
-      <div>
+      <div id="profile-page">
         <div>
-          Welcome {{username}}!
+          <b>Username:</b> {{username}}
         </div>
-        <button className="ui button" onClick={this.onClick.bind(this)}>Logout</button>
+        <button className="ui button" id="logout-button" onClick={this.onClick.bind(this)}>Logout</button>
       </div>
     )
   },
