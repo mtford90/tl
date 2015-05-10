@@ -37,7 +37,8 @@ class Register extends React.Component {
     return true;
   }
 
-  submit() {
+  submit(e) {
+    e.preventDefault();
     if (this.validateFields()) {
       this.setState({
         error: null
@@ -86,7 +87,7 @@ class Register extends React.Component {
       error = '';
     }
     return (
-      <form className="ui six wide column centered form segment  grid">
+      <form className="ui six wide column centered form segment  grid" onSubmit={this.submit.bind(this)}>
 
         <h3 className="ui header centered ">Register</h3>
         {error}
@@ -109,8 +110,8 @@ class Register extends React.Component {
           </div>
         </div>
 
-        <button className="ui button " type="button"  onClick={this.submit.bind(this)}>Register</button>
-        <div className="ui column input">
+        <button className="ui button " type="submit">Register</button>
+        <div className="ui column input account">
           <Link to="login" className="item">
           {'Already have an account?'}
           </Link>

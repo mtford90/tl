@@ -10,7 +10,8 @@ class Login extends React.Component {
     this.state = {error: null, loading: false};
   }
 
-  submit() {
+  submit(e) {
+    e.preventDefault();
     if (this.state.username && this.state.password) {
       this.setState({
         error: null
@@ -51,7 +52,7 @@ class Login extends React.Component {
       error = '';
     }
     return (
-      <form className="ui six wide column centered form segment  grid">
+      <form className="ui six wide column centered form segment  grid" onSubmit={this.submit.bind(this)}>
 
         <h3 className="ui header centered ">Login</h3>
         {error}
@@ -68,15 +69,14 @@ class Login extends React.Component {
           </div>
         </div>
 
-        <button className="ui submit button " type="button" onClick={this.submit.bind(this)}>Login</button>
+        <button className="ui submit button " type="submit">Login</button>
 
-        <div className="ui column input">
+        <div className="ui column input account">
           <Link to="register" className="item">
           {'Need an account?'}
           </Link>
         </div>
       </form>
     )
-
   }
 }
