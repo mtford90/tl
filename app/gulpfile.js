@@ -55,7 +55,7 @@ gulp.task('build:test:html', function (done) {
 
 gulp.task('build:test', function (done) {
   runSequence(
-    'tst123',
+    'build:test:js',
     'build:test:html',
     done
   )
@@ -69,7 +69,7 @@ gulp.task('build:js', function () {
     .pipe(plugins.livereload({port: config.livereload.port}));
 });
 
-gulp.task('tst123', function () {
+gulp.task('build:test:js', function () {
   return gulp.src(__dirname + '/src/js/**/*.spec.js')
     .pipe(plugins.webpack(config.webpack.test))
     .pipe(plugins.rename('test-bundle.js'))
@@ -102,8 +102,8 @@ gulp.task('livereload:listen', function () {
 });
 
 gulp.task('watch:js', function () {
-  gulp.watch([config.glob.dev.js, '!' + config.glob.dev.spec], ['build:js', 'tst123']);
-  gulp.watch([config.glob.dev.spec], ['tst123']);
+  gulp.watch([config.glob.dev.js, '!' + config.glob.dev.spec], ['build:js', 'build:test:js']);
+  gulp.watch([config.glob.dev.spec], ['build:test:js']);
 });
 
 gulp.task('watch', ['build', 'watch:js', 'watch:sass', 'livereload:listen', 'serve']);
