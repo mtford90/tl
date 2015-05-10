@@ -63,11 +63,13 @@ module.exports = new (function () {
 
   this.vendor = {
     js: [
+      BOWER + 'jquery/dist/jquery.js',
       BOWER + 'es5-shim/es5-shim.js',
       BOWER + 'react/react-with-addons.js',
       BOWER + 'react-router/build/umd/ReactRouter.js',
       BOWER + 'moment/moment.js',
-      BOWER + 'jquery/dist/jquery.js',
+      BOWER + 'moment-timezone/builds/moment-timezone-with-data.js',
+      BOWER + 'semantic-ui/dist/semantic.js',
       BOWER + 'semantic-ui/dist/semantic.js',
       BOWER + 'react-semantify/dst/react-semantify.js',
       BOWER + 'rangy/rangy-core.js',
@@ -90,16 +92,19 @@ module.exports = new (function () {
     ]
   };
 
+  var externals = {
+    'react-router': 'ReactRouter',
+    'react': 'React',
+    'jQuery': '$',
+    'immutable': 'Immutable',
+    'underscore': '_',
+    'reflux': 'Reflux',
+    'moment': 'moment'
+  };
+
   this.webpack = {
     bundle: {
-      externals: {
-        'react-router': 'ReactRouter',
-        'react': 'React',
-        'jQuery': '$',
-        'immutable': 'Immutable',
-        'underscore': '_',
-        'reflux': 'Reflux'
-      },
+      externals: externals,
       devtool: '#eval-source-map',
       module: {
         loaders: [
@@ -112,13 +117,7 @@ module.exports = new (function () {
       }
     },
     test: {
-      externals: {
-        'react-router': 'ReactRouter',
-        'react': 'React',
-        'jQuery': '$',
-        'immutable': 'Immutable',
-        'underscore': '_'
-      },
+      externals: externals,
       devtool: '#eval-source-map',
       module: {
         loaders: [

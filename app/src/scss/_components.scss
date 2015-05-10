@@ -13,11 +13,12 @@
 }
 
 .timezone {
+  $width: 240px;
   border-radius: 6px;
   display: inline-block;
   margin-right: 10px;
   margin-top: 10px;
-  width: 200px;
+  width: 280px;
   height: 200px;
   background-color: rgb(230, 230, 230);
   padding: 10px;
@@ -29,7 +30,7 @@
     header {
       @include ellipsisOverflow();
       font-size: 18px;
-      width: 160px;
+      width: $width;
     }
     main {
       flex: 1;
@@ -42,6 +43,20 @@
     footer {
       display: flex;
       justify-content: center;
+    }
+    input {
+      top: 0;
+      left: 0;
+      padding: 5px;
+    }
+    .name-input {
+      width: $width;
+      input {
+        width: $width;
+      }
+    }
+    .dropdown {
+      width: 240px;
     }
   }
   .edit {
