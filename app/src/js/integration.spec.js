@@ -171,13 +171,15 @@ describe('api integration', function () {
           url: url('/api/timezones/'),
           dataType: 'json'
         }).success(function (data) {
+          var url2 = url('/api/timezones/' + data.id + '/');
+          console.log('url2', url2);
           $.ajax({
             type: "PUT",
             data: data,
             headers: {
               'Authorization': authHeader
             },
-            url: data.url,
+            url: url2,
             dataType: 'json'
           }).success(function () {
             done();
@@ -215,7 +217,7 @@ describe('api integration', function () {
             headers: {
               'Authorization': authHeader
             },
-            url: data.url
+            url: url('/api/timezones/' + data.id + '/')
           }).success(function () {
             done();
           }).fail(done);
