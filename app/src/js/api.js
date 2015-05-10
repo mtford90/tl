@@ -48,7 +48,7 @@ module.exports = {
     }).success(function (user) {
       user.username = username;
       data.userActions.login(user);
-      cb(user);
+      cb(null, user);
     }).fail(function (jqXHR) {
       var data = jqXHR.responseJSON;
       if (data) {

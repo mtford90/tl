@@ -119,7 +119,7 @@ var App = React.createClass({
         console.info('User logged out');
         this.transitionTo('login');
       }
-    });
+    }.bind(this));
   },
   render: function () {
     return (
