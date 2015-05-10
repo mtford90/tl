@@ -63,7 +63,7 @@ var Timezone = React.createClass({
         <div className="inner-timezone">
           <header>{timezone.name}</header>
           <main>{this.state.time}</main>
-          <footer className="timezone-name">{timezone.timezone}</footer>
+          <footer className="timezone-name">{timezone.timezone}&nbsp;{'(' + this.state.offset + ')'}</footer>
         </div>
       </div>
     )
@@ -117,9 +117,12 @@ var Timezone = React.createClass({
     }
   },
   getCurrentTime: function () {
-    var time = moment().tz(this.state.timezone.timezone).format('HH:mm:ss');
+    var tz = moment().tz(this.state.timezone.timezone);
+    var time = tz.format('HH:mm:ss');
+    var offset = tz.format('Z');
     this.setState({
-      time: time
+      time: time,
+      offset: offset
     });
   },
   componentDidMount: function () {
