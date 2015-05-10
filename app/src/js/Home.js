@@ -18,7 +18,7 @@ var Home = React.createClass({
         {timezones.length ? timezones.map(function (t, idx) {
           console.log('Creating timezone component', t);
           return <Timezone timezone={t} key={idx} idx={idx}/>
-        }) : 'You havent created any timezones yet.'}
+        }) : 'Nothing to show.'}
       </div>
     )
   },
