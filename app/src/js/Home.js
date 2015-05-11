@@ -1,16 +1,16 @@
 var Timezone = require('./Timezone'),
   Reflux = require('reflux'),
   _ = require('underscore'),
-  data = require('./data');
+  flux = require('./flux');
 
 
 var Home = React.createClass({
   getInitialState: function () {
     return {
-      timezones: data.timezoneStore.timezones
+      timezones: flux.timezoneStore.timezones
     }
   },
-  mixins: [Reflux.listenTo(data.timezoneStore, "onTimezoneChange")],
+  mixins: [Reflux.listenTo(flux.timezoneStore, "onTimezoneChange")],
   render() {
     var timezones = this.state.timezones;
     return (

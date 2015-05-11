@@ -65,7 +65,7 @@ var Timezone = React.createClass({
           <main>{this.state.time}</main>
           <footer className="timezone-name">{timezone.timezone}&nbsp;{'(' + this.state.offset + ')'}</footer>
         </div>
-      </div>
+      </div>gi
     )
   },
   onNameChange: function (event) {

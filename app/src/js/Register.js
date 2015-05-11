@@ -1,6 +1,6 @@
 var React = require('react'),
   cx = React.addons.classSet,
-  data = require('./data'),
+  flux = require('./flux'),
   api = require('./api');
 
 import {Link} from 'react-router';

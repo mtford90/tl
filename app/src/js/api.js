@@ -1,5 +1,5 @@
 var $ = require('jQuery'),
-  data = require('./data'),
+  flux = require('./flux'),
   _ = require('underscore');
 
 var base = 'http://127.0.0.1:8000';
@@ -9,7 +9,7 @@ function url(path) {
 }
 
 function getAuthHeader() {
-  var authToken = data.userStore.user.auth_token;
+  var authToken = flux.userStore.user.auth_token;
   var authHeader = 'Token ' + authToken;
   return authHeader;
 }
@@ -30,7 +30,7 @@ module.exports = {
       },
       dataType: 'json'
     }).success(function (user) {
-      data.userActions.login(user);
+      flux.userActions.login(user);
       cb(null, user);
     }).fail(function (jqXHR) {
       var data = jqXHR.responseJSON;
@@ -56,7 +56,7 @@ module.exports = {
       dataType: 'json'
     }).success(function (user) {
       user.username = username;
-      data.userActions.login(user);
+      flux.userActions.login(user);
       cb(null, user);
     }).fail(function (jqXHR) {
       var data = jqXHR.responseJSON;
@@ -74,7 +74,7 @@ module.exports = {
     });
   },
   createTimezone: function (timezone, cb) {
-    data.timezoneActions.createTimezone(timezone);
+    flux.timezoneActions.createTimezone(timezone);
     $.ajax({
       type: "POST",
       data: timezone,
@@ -98,7 +98,7 @@ module.exports = {
       },
       url: url('/api/timezones/')
     }).success(function (timezones) {
-      data.timezoneActions.getTimezones(timezones);
+      flux.timezoneActions.getTimezones(timezones);
       cb(null, timezones);
     }).fail(cb);
   },
@@ -113,7 +113,7 @@ module.exports = {
       url: url('/api/timezones/?search=' + searchString),
       dataType: 'json'
     }).success(function (timezones) {
-      data.timezoneActions.getTimezones(timezones);
+      flux.timezoneActions.getTimezones(timezones);
       cb();
     }).fail(cb);
   },
@@ -129,7 +129,7 @@ module.exports = {
         },
         url: url('/api/timezones/' + id.toString() + '/')
       }).success(function (timezones) {
-        data.timezoneActions.updateTimezone(timezone, cb);
+        flux.timezoneActions.updateTimezone(timezone, cb);
         cb(null, timezones);
       }).fail(cb);
     }
@@ -149,7 +149,7 @@ module.exports = {
         },
         url: url('/api/timezones/' + id.toString() + '/')
       }).success(function () {
-        data.timezoneActions.deleteTimezone(timezone);
+        flux.timezoneActions.deleteTimezone(timezone);
         cb(null);
       }).fail(function (jqXHR) {
         var err = jqXHR.responseText;

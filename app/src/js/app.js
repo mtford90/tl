@@ -2,7 +2,7 @@ var Router = require('react-router'),
   React = require('react'),
   Reflux = require('reflux'),
   api = require('./api'),
-  data = require('./data');
+  flux = require('./flux');
 
 import Home from './Home';
 import {Route, Redirect, NotFoundRoute, RouteHandler, Link, DefaultRoute} from 'react-router';
@@ -11,7 +11,7 @@ import Register from './Register';
 
 var LoggedIn = React.createClass({
   componentDidMount: function () {
-    if (!data.userStore.user) {
+    if (!flux.userStore.user) {
       this.transitionTo('login');
     }
     else {
@@ -52,7 +52,7 @@ var LoggedIn = React.createClass({
     })
   },
   render: function () {
-    var user = data.userStore.user;
+    var user = flux.userStore.user;
     var username = user ? user.username : '';
     return (
       <div className="ui page grid">
@@ -91,7 +91,7 @@ var LoggedIn = React.createClass({
 var LoggedOut = React.createClass({
   mixins: [Router.Navigation],
   componentDidMount: function () {
-    var userStore = data.userStore;
+    var userStore = flux.userStore;
     console.log('userStore', userStore);
     if (userStore.user) {
       this.transitionTo('app');
@@ -117,7 +117,7 @@ var LoggedOut = React.createClass({
 var App = React.createClass({
   mixins: [Router.Navigation],
   componentDidMount: function () {
-    var userStore = data.userStore;
+    var userStore = flux.userStore;
     userStore.listen(function (user) {
       if (user) {
         console.info('New user logged in', user);
@@ -141,7 +141,7 @@ var App = React.createClass({
 var Profile = React.createClass({
 
   render: function () {
-    var user = data.userStore.user;
+    var user = flux.userStore.user;
     var username = user ? user.username : '';
     return (
       <div id="profile-page">
@@ -153,9 +153,9 @@ var Profile = React.createClass({
     )
   },
   onClick: function () {
-    data.userActions.logout();
+    flux.userActions.logout();
     // Wipe all timezones.
-    data.timezoneActions.getTimezones([]);
+    flux.timezoneActions.getTimezones([]);
   }
 
 });
