@@ -5,11 +5,9 @@ var React = require('react'),
 
 var Timezone = React.createClass({
   getInitialState: function () {
-    var timezoneNames = moment.tz.names();
-
     return {
       editing: false,
-      timezoneNames: timezoneNames,
+      timezoneNames: time.getTimezoneNames(),
       timezone: this.props.timezone
     }
   },
@@ -35,7 +33,6 @@ var Timezone = React.createClass({
       editing: false
     });
     var timezone = this.state.timezone;
-    console.log('updating timezone', timezone);
     api.updateTimezone(timezone, function (err) {
       if (err) {
         console.error('Error updating timezone!', err);
@@ -47,7 +44,6 @@ var Timezone = React.createClass({
   },
   onDeletePressed: function () {
     var timezone = this.state.timezone;
-    console.log('onDeletePressed', timezone);
     api.deleteTimezone(timezone, function (err) {
       if (err) console.error('Error deleting timezone!', err);
       else console.info('Successfully deleted timezone!');

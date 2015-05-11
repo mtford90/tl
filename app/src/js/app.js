@@ -92,7 +92,6 @@ var LoggedOut = React.createClass({
   mixins: [Router.Navigation],
   componentDidMount: function () {
     var userStore = flux.userStore;
-    console.log('userStore', userStore);
     if (userStore.user) {
       this.transitionTo('app');
     }

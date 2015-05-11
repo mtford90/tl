@@ -31,7 +31,10 @@ module.exports = {
       dataType: 'json'
     }).success(function (user) {
       flux.userActions.login(user);
-      cb(null, user);
+      // Ensure flux store is updated before returning.
+      setImmediate(function () {
+        cb(null, user);
+      });
     }).fail(function (jqXHR) {
       var data = jqXHR.responseJSON;
       if (data.username) {
@@ -57,7 +60,10 @@ module.exports = {
     }).success(function (user) {
       user.username = username;
       flux.userActions.login(user);
-      cb(null, user);
+      // Ensure flux store is updated before returning.
+      setImmediate(function () {
+        cb(null, user);
+      });
     }).fail(function (jqXHR) {
       var data = jqXHR.responseJSON;
       if (data) {
@@ -73,6 +79,18 @@ module.exports = {
       }
     });
   },
+  me: function (cb) {
+    $.ajax({
+      type: "GET",
+      headers: {
+        'Authorization': getAuthHeader(),
+        'X-CSRFToken': csrftoken
+      },
+      url: url('/api/auth/me/')
+    }).success(function (user) {
+      cb(null, user);
+    }).fail(cb);
+  },
   createTimezone: function (timezone, cb) {
     flux.timezoneActions.createTimezone(timezone);
     $.ajax({
@@ -86,7 +104,7 @@ module.exports = {
       dataType: 'json'
     }).success(function (data) {
       _.extend(timezone, data);
-      cb();
+      cb(null, data);
     }).fail(cb);
   },
   getTimezones: function (cb) {
@@ -119,19 +137,26 @@ module.exports = {
   },
   updateTimezone: function (timezone, cb) {
     var id = timezone.id;
+    timezone = _.extend({}, timezone);
+    delete timezone.user;
     if (id) {
       $.ajax({
         type: "PUT",
-        data: timezone,
+        data: JSON.stringify(timezone),
         headers: {
           'Authorization': getAuthHeader(),
           'X-CSRFToken': csrftoken
         },
+        contentType: "application/json",
+        dataType: 'json',
         url: url('/api/timezones/' + id.toString() + '/')
       }).success(function (timezones) {
         flux.timezoneActions.updateTimezone(timezone, cb);
         cb(null, timezones);
-      }).fail(cb);
+      }).fail(function (jqXHR) {
+        var responseJSON = jqXHR.responseJSON;
+        cb(responseJSON ? responseJSON : jqXHR.responseText)
+      });
     }
     else {
       // Not saved yet.

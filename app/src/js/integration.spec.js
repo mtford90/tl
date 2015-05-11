@@ -1,5 +1,8 @@
 var $ = require('jQuery');
 var assert = chai.assert;
+var api = require('./api');
+var flux = require('./flux');
+var _ = require('underscore');
 
 function guid() {
   function s4() {
@@ -19,6 +22,11 @@ function url(path) {
 }
 
 describe('api integration', function () {
+
+  beforeEach(function () {
+    flux.userActions.logout();
+  });
+
   it('root endpoint', function (done) {
     $.get(url('/api/'))
       .success(function () {
@@ -27,27 +35,15 @@ describe('api integration', function () {
       .fail(done);
   });
 
-  function register(username, password, cb) {
-    $.ajax({
-      type: "POST",
-      url: url('/api/auth/register/'),
-      data: {
-        username: username,
-        password: password
-      },
-      dataType: 'json'
-    }).success(function (data) {
-      cb(null, data);
-    }).fail(cb);
-  }
-
   it('user registration', function (done) {
     var username = guid().slice(0, 30);
     var password = guid();
 
-    register(username, password, function (err, data) {
+    api.register(username, password, function (err, data) {
       if (!err) {
         assert.equal(data.username, username);
+        assert.ok(flux.userStore.user, 'User should now exist');
+        assert.ok(flux.userStore.user.auth_token, 'User should have auth token');
       }
       done(err);
     });
@@ -57,19 +53,11 @@ describe('api integration', function () {
     var username = guid().slice(0, 30);
     var password = guid();
 
-    register(username, password, function (err) {
+    api.register(username, password, function (err) {
       if (!err) {
-        $.ajax({
-          type: "POST",
-          url: url('/api/auth/login/'),
-          data: {
-            username: username,
-            password: password
-          },
-          dataType: 'json'
-        }).success(function (data) {
-          done();
-        }).fail(done);
+        api.login(username, password, function (err) {
+          done(err);
+        });
       }
       else {
         done(err);
@@ -81,22 +69,13 @@ describe('api integration', function () {
     var username = guid().slice(0, 30);
     var password = guid();
 
-    register(username, password, function (err, data) {
+    api.register(username, password, function (err) {
       if (!err) {
-        var authHeader = 'Token ' + data.auth_token;
-        $.ajax({
-          type: "GET",
-          headers: {
-            'Authorization': authHeader
-          },
-          url: url('/api/auth/me/')
-        }).success(function () {
-          done();
-        }).fail(done);
+        api.me(function (err, user) {
+          done(err);
+        });
       }
-      else {
-        done(err);
-      }
+      else done(err);
     });
   });
 
@@ -104,19 +83,11 @@ describe('api integration', function () {
     var username = guid().slice(0, 30);
     var password = guid();
 
-    register(username, password, function (err, data) {
+    api.register(username, password, function (err) {
       if (!err) {
-        var authToken = data.auth_token;
-        var authHeader = 'Token ' + authToken;
-        $.ajax({
-          type: "GET",
-          headers: {
-            'Authorization': authHeader
-          },
-          url: url('/api/timezones/')
-        }).success(function () {
-          done();
-        }).fail(done);
+        api.getTimezones(function (err) {
+          done(err);
+        })
       }
       else {
         done(err);
@@ -128,23 +99,15 @@ describe('api integration', function () {
     var username = guid().slice(0, 30);
     var password = guid();
 
-    register(username, password, function (err, data) {
+    api.register(username, password, function (err) {
       if (!err) {
-        var authToken = data.auth_token;
-        var authHeader = 'Token ' + authToken;
-        $.ajax({
-          type: "POST",
-          data: {
-            timezone: 'Europe/London'
-          },
-          headers: {
-            'Authorization': authHeader
-          },
-          url: url('/api/timezones/'),
-          dataType: 'json'
-        }).success(function () {
-          done();
-        }).fail(done);
+        var d = {
+          timezone: 'Europe/London',
+          name: 'test'
+        };
+        api.createTimezone(d, function (err) {
+          done(err);
+        });
       }
       else {
         done(err);
@@ -156,35 +119,22 @@ describe('api integration', function () {
     var username = guid().slice(0, 30);
     var password = guid();
 
-    register(username, password, function (err, data) {
+    api.register(username, password, function (err) {
       if (!err) {
-        var authToken = data.auth_token;
-        var authHeader = 'Token ' + authToken;
-        $.ajax({
-          type: "POST",
-          data: {
-            timezone: 'Europe/London'
-          },
-          headers: {
-            'Authorization': authHeader
-          },
-          url: url('/api/timezones/'),
-          dataType: 'json'
-        }).success(function (data) {
-          var url2 = url('/api/timezones/' + data.id + '/');
-          console.log('url2', url2);
-          $.ajax({
-            type: "PUT",
-            data: data,
-            headers: {
-              'Authorization': authHeader
-            },
-            url: url2,
-            dataType: 'json'
-          }).success(function () {
-            done();
-          }).fail(done);
-        }).fail(done);
+        var d = {
+          timezone: 'Europe/London',
+          name: 'test'
+        };
+
+        api.createTimezone(d, function (err, resp) {
+          _.extend(d, resp);
+          if (!err) {
+            console.log('d', d);
+            api.updateTimezone(d, function (err) {
+              done(err);
+            })
+          } else done(err);
+        });
       }
       else {
         done(err);
@@ -196,32 +146,21 @@ describe('api integration', function () {
     var username = guid().slice(0, 30);
     var password = guid();
 
-    register(username, password, function (err, data) {
+    api.register(username, password, function (err) {
       if (!err) {
-        var authToken = data.auth_token;
-        var authHeader = 'Token ' + authToken;
-        $.ajax({
-          type: "POST",
-          data: {
-            name: 'Test',
-            timezone: 'Europe/London'
-          },
-          headers: {
-            'Authorization': authHeader
-          },
-          url: url('/api/timezones/'),
-          dataType: 'json'
-        }).success(function (data) {
-          $.ajax({
-            type: "DELETE",
-            headers: {
-              'Authorization': authHeader
-            },
-            url: url('/api/timezones/' + data.id + '/')
-          }).success(function () {
-            done();
-          }).fail(done);
-        }).fail(done);
+        var d = {
+          timezone: 'Europe/London',
+          name: 'test'
+        };
+
+        api.createTimezone(d, function (err, resp) {
+          _.extend(d, resp);
+          if (!err) {
+            api.deleteTimezone(d, function (err) {
+              done(err);
+            })
+          } else done(err);
+        });
       }
       else {
         done(err);
@@ -233,24 +172,13 @@ describe('api integration', function () {
     var username = guid().slice(0, 30);
     var password = guid();
 
-    register(username, password, function (err, data) {
+    api.register(username, password, function (err) {
       if (!err) {
-        var authToken = data.auth_token;
-        var authHeader = 'Token ' + authToken;
-        $.ajax({
-          type: "GET",
-          headers: {
-            'Authorization': authHeader
-          },
-          url: url('/api/timezones/?search=Test'),
-          dataType: 'json'
-        }).success(function () {
-          done();
-        }).fail(done);
+        api.searchTimezones('Test', function (err) {
+          done(err);
+        })
       }
-      else {
-        done(err);
-      }
+      else done(err);
     });
   });
 
