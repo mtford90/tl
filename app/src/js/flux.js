@@ -52,12 +52,7 @@ var timezoneStore = Reflux.createStore({
     this._trigger();
   },
   onDeleteTimezone: function (timezone) {
-    var idx = this.timezones.indexOf(timezone);
-    console.log('idx', idx);
-    var oDelete = this.timezones[idx];
-    console.log('oDelete', oDelete);
-    oDelete = this.timezones.splice(idx, 1);
-    console.log('oDelete', oDelete);
+    this.timezones.splice(this.timezones.indexOf(timezone), 1);
     this._trigger();
   },
   onSearchTimezonez: function (searchString) {

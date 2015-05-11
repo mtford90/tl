@@ -1,5 +1,6 @@
 var React = require('react'),
   api = require('./api'),
+  time = require('./time'),
   moment = require('moment');
 
 var Timezone = React.createClass({
@@ -65,7 +66,7 @@ var Timezone = React.createClass({
           <main>{this.state.time}</main>
           <footer className="timezone-name">{timezone.timezone}&nbsp;{'(' + this.state.offset + ')'}</footer>
         </div>
-      </div>gi
+      </div>
     )
   },
   onNameChange: function (event) {
@@ -117,11 +118,11 @@ var Timezone = React.createClass({
     }
   },
   getCurrentTime: function () {
-    var tz = moment().tz(this.state.timezone.timezone);
-    var time = tz.format('HH:mm:ss');
-    var offset = tz.format('Z');
+    var tz = this.state.timezone.timezone;
+    var t = time.getTime(tz);
+    var offset = time.getUTCOffset(tz);
     this.setState({
-      time: time,
+      time: t,
       offset: offset
     });
   },
